@@ -5,23 +5,26 @@ services:
 - movie-fun-sso
 - movie-fun-registry
 applications:
-- name: album-service
+- name: album-service-3
   path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
+  routes:
+    - route: ssk-album-service-3.apps.evans.pal.pivotal.io
   services:
   - album-database
   - moviefun-s3
   env:
     GRANT_TYPE: client_credentials
-- name: movie-service
+- name: movie-service-3
   path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
+  routes:
+    - route: ssk-movie-service-3.apps.evans.pal.pivotal.io
   services:
   - movie-database
   env:
     GRANT_TYPE: client_credentials
-- name: movie-fun-app
+- name: movie-fun-app-3
   path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+  routes:
+    - route: ssk-movie-app-3.apps.evans.pal.pivotal.io
   services:
   - moviefun-s3
-  env:
-    ALBUMS_URL: http://album-service.cfapps-02.haas-66.pez.pivotal.io/albums
-    MOVIES_URL: http://movie-service.cfapps-02.haas-66.pez.pivotal.io/movies
