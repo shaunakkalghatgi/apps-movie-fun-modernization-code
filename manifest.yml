@@ -1,20 +1,33 @@
 ---
 memory: 1G
 instances: 1
+services:
+- movie-fun-sso
 applications:
 - name: album-service
   path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
   services:
   - album-database
   - moviefun-s3
+  routes:
+  - route: sskalbum-service.apps.evans.pal.pivotal.io
+  env:
+    GRANT_TYPE: client_credentials
 - name: movie-service
+  routes:
+    - route: sskmovie-service.apps.evans.pal.pivotal.io
   path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
   services:
   - movie-database
+  env:
+    GRANT_TYPE: client_credentials
 - name: movie-fun-app
   path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+  routes:
+    - route: sskmovie-app.apps.evans.pal.pivotal.io
   services:
   - moviefun-s3
   env:
-    ALBUMS_URL: http://album-service.cfapps-02.haas-66.pez.pivotal.io/albums
-    MOVIES_URL: http://movie-service.cfapps-02.haas-66.pez.pivotal.io/movies
+    ALBUMS_URL: http://sskalbum-service.apps.evans.pal.pivotal.io/albums
+    MOVIES_URL: http://sskmovie-service.apps.evans.pal.pivotal.io/movies
+    SSO_REDIRECT_URIS: https://sskmovie-app.apps.evans.pal.pivotal.io

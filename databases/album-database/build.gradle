@@ -19,6 +19,7 @@ flyway {
     outOfOrder = false
 }
 
+
 def tunnelProcess
 
 task openTunnel {
@@ -39,7 +40,7 @@ task closeTunnel {
     }
 }
 
-task cfMigrate(type: FlywayMigrateTask, dependsOn: openTunnel) {
+    task cfMigrate(type: FlywayMigrateTask, dependsOn: openTunnel) {
     if (System.env.CF_MIGRATE) {
         extension = setupProdFlywayExtension(new FlywayExtension(), "album-service")
     }
